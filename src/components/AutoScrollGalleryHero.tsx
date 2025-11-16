@@ -1,5 +1,5 @@
 import { motion, useAnimationFrame, useMotionValue, useTransform } from 'motion/react';
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { ArrowDown } from 'lucide-react';
 import { ImageWithFallback } from './figma/ImageWithFallback';
 
@@ -85,22 +85,44 @@ const galleryItems: GalleryItem[] = [
   },
 ];
 
+const useIsMobile = () => {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkScreenSize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    checkScreenSize();
+    window.addEventListener('resize', checkScreenSize);
+
+    return () => window.removeEventListener('resize', checkScreenSize);
+  }, []);
+
+  return isMobile;
+};
+
 export function AutoScrollGalleryHero() {
   const [isPaused, setIsPaused] = useState(false);
   const basescrollY = useMotionValue(0);
+  const isMobile = useIsMobile();
 
   useAnimationFrame((_time, delta) => {
     if (!isPaused) {
-      // The value '0.05' controls the scroll speed. Decrease for slower, increase for faster.
-      basescrollY.set(basescrollY.get() + delta * 0.05);
+      let scrollSpeed = 0.05;
+      if (isMobile) {
+        scrollSpeed = 0.03; // Slower scroll on mobile for better viewing
+      }
+      basescrollY.set(basescrollY.get() + delta * scrollSpeed);
     }
   });
 
-  const columns = useMemo(() => [
-    galleryItems.filter((_, i) => i % 3 === 0),
-    galleryItems.filter((_, i) => i % 3 === 1),
-    galleryItems.filter((_, i) => i % 3 === 2),
-  ], []);
+  const columns = useMemo(() => {
+    const numColumns = isMobile ? 1 : 3;
+    return Array.from({ length: numColumns }, (_, i) =>
+      galleryItems.filter((_, itemIndex) => itemIndex % numColumns === i)
+    );
+  }, [isMobile]);
 
   const totalColumnHeight = useMemo(() => 
     columns.map(col => col.reduce((acc, item) => acc + item.height + 24, 0))
@@ -112,43 +134,23 @@ export function AutoScrollGalleryHero() {
 
       {/* Auto-scrolling columns */}
       <div 
-        className="flex gap-6 h-full py-8 px-6"
+        className="flex gap-6 h-full py-8 px-3 md:px-6"
         onMouseEnter={() => setIsPaused(true)}
         onMouseLeave={() => setIsPaused(false)}
       >
         {columns.map((column, colIndex) => {
-          const direction = colIndex % 2 === 0 ? -1 : 1;
-          const height = totalColumnHeight[colIndex];
-          
-          const y = useTransform(
-            basescrollY,
-            (v) => {
-              const offset = v * direction;
-              return (offset % height + height) % height - height;
-            }
-          );
-
+          // This component will render the column and handle its own animation logic.
+          // This avoids calling hooks inside a loop in the parent component.
           return (
-            <motion.div key={colIndex} className="flex-1 flex flex-col gap-6" style={{ y }}>
-              {[...column, ...column].map((item, index) => (
-              <motion.div
-                key={`${item.id}-${index}`}
-                whileHover={{ scale: 1.05, zIndex: 50 }}
-                transition={{ duration: 0.3 }}
-                className="relative"
-                style={{ height: item.height }}
-              >
-                <div className="w-full h-full border-4 border-black shadow-lg overflow-hidden bg-white">
-                  <ImageWithFallback
-                    src={item.src}
-                    alt={item.alt}
-                    className="w-full h-full object-cover sepia-[0.2]"
-                  />
-                </div>
-              </motion.div>
-            ))}
-            </motion.div>
-          )})}
+            <ScrollingColumn
+              key={colIndex}
+              column={column}
+              basescrollY={basescrollY}
+              direction={colIndex % 2 === 0 ? -1 : 1}
+              totalHeight={totalColumnHeight[colIndex]}
+            />
+          );
+        })}
       </div>
 
       {/* Angled intro section */}
@@ -171,5 +173,46 @@ export function AutoScrollGalleryHero() {
         </div>
       </div>
     </div>
+  );
+}
+
+interface ScrollingColumnProps {
+  column: GalleryItem[];
+  basescrollY: ReturnType<typeof useMotionValue<number>>;
+  direction: 1 | -1;
+  totalHeight: number;
+}
+
+function ScrollingColumn({ column, basescrollY, direction, totalHeight }: ScrollingColumnProps) {
+  const y = useTransform(
+    basescrollY,
+    (v) => {
+      const offset = v * direction;
+      // Ensure totalHeight is not zero to avoid division by zero errors
+      if (totalHeight === 0) return 0;
+      return (offset % totalHeight + totalHeight) % totalHeight - totalHeight;
+    }
+  );
+
+  return (
+    <motion.div className="flex-1 flex flex-col gap-6" style={{ y }}>
+      {[...column, ...column].map((item, index) => (
+              <motion.div
+                key={`${item.id}-${index}`}
+                whileHover={{ scale: 1.05, zIndex: 50 }}
+                transition={{ duration: 0.3 }}
+                className="relative"
+                style={{ height: item.height }}
+              >
+                <div className="w-full h-full border-4 border-black shadow-lg overflow-hidden bg-white">
+                  <ImageWithFallback
+                    src={item.src}
+                    alt={item.alt}
+                    className="w-full h-full object-cover sepia-[0.2]"
+                  />
+                </div>
+              </motion.div>
+            ))}
+    </motion.div>
   );
 }
