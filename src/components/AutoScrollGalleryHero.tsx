@@ -89,7 +89,7 @@ export function AutoScrollGalleryHero() {
   ];
 
   return (
-    <div className="relative h-screen overflow-hidden bg-[#f5f1e8]">
+    <div className="relative h-screen overflow-hidden bg-cream">
 
 
       {/* Auto-scrolling columns */}
@@ -133,7 +133,7 @@ export function AutoScrollGalleryHero() {
       </div>
 
       {/* Bottom fade */}
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#f5f1e8] to-transparent pointer-events-none" />
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-cream to-transparent pointer-events-none" />
     </div>
   );
 }

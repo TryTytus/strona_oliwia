@@ -71,17 +71,17 @@ const houseGalleryItems = [
 
 export default function App() {
   return (
-    <div className="min-h-screen bg-[#f5f1e8]">
+    <div className="min-h-screen bg-cream">
       <AutoScrollGalleryHero />
       <AboutSection />
       <GallerySection
-        title="Beloved Pet Portraits"
-        subtitle="Every whisker, every expression, every personality trait captured in loving detail"
+        title={<span className="font-serif text-4xl md:text-6xl italic">Beloved Pet Portraits</span>}
+        subtitle={<span className="text-lg font-light mt-2 text-mid-brown">Every whisker, every expression, captured in loving detail.</span>}
         items={petGalleryItems}
       />
       <GallerySection
-        title="Cherished Home Drawings"
-        subtitle="Architectural artistry that preserves the memories of where your story unfolds"
+        title={<span className="font-serif text-4xl md:text-6xl italic">Cherished Home Drawings</span>}
+        subtitle={<span className="text-lg font-light mt-2 text-mid-brown">Architectural artistry for the place your story unfolds.</span>}
         items={houseGalleryItems}
       />
       <ContactSection />
