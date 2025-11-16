@@ -121,7 +121,10 @@ export function AutoScrollGalleryHero() {
           
           const y = useTransform(
             basescrollY,
-            (v) => (v * direction) % height
+            (v) => {
+              const offset = v * direction;
+              return (offset % height + height) % height - height;
+            }
           );
 
           return (
