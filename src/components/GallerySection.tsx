@@ -21,6 +21,13 @@ export function GallerySection({
   items, 
 }: GallerySectionProps) {
 
+  // Definiujemy różne proporcje, aby nadać galerii asymetryczny wygląd
+  const aspectRatios = [
+    '3/4', // Portret
+    '1/1', // Kwadrat
+    '4/3', // Pejzaż
+  ];
+
   return (
     <section className="py-24 bg-[#faf8f3]">
       <div className="max-w-7xl mx-auto px-6">
@@ -39,7 +46,10 @@ export function GallerySection({
           columnsCountBreakPoints={{ 350: 1, 750: 2, 900: 3 }}
         >
           <Masonry gutter="1.5rem">
-            {items.map((item, index) => (
+            {items.map((item, index) => {
+              // Wybieramy proporcje na podstawie indeksu obrazka
+              const aspectRatio = aspectRatios[index % aspectRatios.length];
+              return (
               <motion.div
                 key={item.id}
                 initial={{ opacity: 0, scale: 0.8 }}
@@ -56,12 +66,14 @@ export function GallerySection({
                   transition: { duration: 0.3 }
                 }}
                 className="cursor-pointer"
+                style={{ aspectRatio }}
               >
-                <div className="relative group overflow-hidden border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] bg-white">
+                <div className="relative group overflow-hidden border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] bg-white w-full h-full">
                   <ImageWithFallback
                     src={item.src}
                     alt={item.alt}
-                    className="w-full h-auto transition-transform duration-700 group-hover:scale-110 sepia-[0.15]"
+                    // Zmieniamy klasy, aby obraz wypełniał kontener o zadanych proporcjach
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 sepia-[0.15]"
                   />
                   <motion.div
                     initial={{ opacity: 0 }}
@@ -72,7 +84,8 @@ export function GallerySection({
                   </motion.div>
                 </div>
               </motion.div>
-            ))}
+              )
+            })}
           </Masonry>
         </ResponsiveMasonry>
       </div>
