@@ -1,5 +1,5 @@
-import { motion, useAnimationFrame } from 'motion/react';
-import { useRef, useState } from 'react';
+import { motion, useAnimationFrame, useMotionValue, useTransform } from 'motion/react';
+import { useState, useMemo } from 'react';
 import { ImageWithFallback } from './figma/ImageWithFallback';
 
 interface GalleryItem {
@@ -85,20 +85,25 @@ const galleryItems: GalleryItem[] = [
 ];
 
 export function AutoScrollGalleryHero() {
-  const scrollRef = useRef(0);
   const [isPaused, setIsPaused] = useState(false);
+  const basescrollY = useMotionValue(0);
 
-  useAnimationFrame((t, delta) => {
+  useAnimationFrame((_time, delta) => {
     if (!isPaused) {
-      scrollRef.current += delta * 0.03;
+      // The value '0.05' controls the scroll speed. Decrease for slower, increase for faster.
+      basescrollY.set(basescrollY.get() + delta * 0.05);
     }
   });
 
-  const columns = [
+  const columns = useMemo(() => [
     galleryItems.filter((_, i) => i % 3 === 0),
     galleryItems.filter((_, i) => i % 3 === 1),
     galleryItems.filter((_, i) => i % 3 === 2),
-  ];
+  ], []);
+
+  const totalColumnHeight = useMemo(() => 
+    columns.map(col => col.reduce((acc, item) => acc + item.height + 24, 0))
+  , [columns]);
 
   return (
     <div className="relative h-screen overflow-hidden bg-cream">
@@ -110,20 +115,18 @@ export function AutoScrollGalleryHero() {
         onMouseEnter={() => setIsPaused(true)}
         onMouseLeave={() => setIsPaused(false)}
       >
-        {columns.map((column, colIndex) => (
-          <motion.div
-            key={colIndex}
-            className="flex-1 flex flex-col gap-6"
-            style={{
-              y: useAnimationFrame((t) => {
-                if (isPaused) return scrollRef.current;
-                const speed = colIndex % 2 === 0 ? 1 : -1;
-                const offset = colIndex * 200;
-                return ((scrollRef.current * speed + offset) % 2000) - 1000;
-              })
-            }}
-          >
-            {[...column, ...column, ...column].map((item, index) => (
+        {columns.map((column, colIndex) => {
+          const direction = colIndex % 2 === 0 ? -1 : 1;
+          const height = totalColumnHeight[colIndex];
+          
+          const y = useTransform(
+            basescrollY,
+            (v) => (v * direction) % height
+          );
+
+          return (
+            <motion.div key={colIndex} className="flex-1 flex flex-col gap-6" style={{ y }}>
+              {[...column, ...column].map((item, index) => (
               <motion.div
                 key={`${item.id}-${index}`}
                 whileHover={{ scale: 1.05, zIndex: 50 }}
@@ -140,8 +143,8 @@ export function AutoScrollGalleryHero() {
                 </div>
               </motion.div>
             ))}
-          </motion.div>
-        ))}
+            </motion.div>
+          )})}
       </div>
 
       {/* Bottom fade */}
