@@ -3,7 +3,7 @@ import { AboutSection } from './components/AboutSection';
 import { GallerySection } from './components/GallerySection';
 import { ContactSection } from './components/ContactSection';
 
-const petGalleryItems = [
+const horseGalleryItems = [
   {
     id: 1,
     src: "https://images.unsplash.com/photo-1733212697044-cfe8043a1655?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwZXQlMjBwb3J0cmFpdCUyMGRyYXdpbmd8ZW58MXx8fHwxNzYzMzAwNDQ4fDA&ixlib=rb-4.1.0&q=80&w=1080",
@@ -41,7 +41,7 @@ const petGalleryItems = [
   },
 ];
 
-const houseGalleryItems = [
+const petGalleryItems = [
   {
     id: 8,
     src: "https://images.unsplash.com/photo-1762119594563-fc90dabb6161?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxob3VzZSUyMGlsbHVzdHJhdGlvbiUyMHdhdGVyY29sb3J8ZW58MXx8fHwxNzYzMzAwNDQ5fDA&ixlib=rb-4.1.0&q=80&w=1080",
@@ -75,14 +75,14 @@ export default function App() {
       <AutoScrollGalleryHero />
       <AboutSection />
       <GallerySection
-        title={<span className="font-serif text-4xl md:text-6xl italic">Beloved Pet Portraits</span>}
-        subtitle={<span className="text-lg font-light mt-2 text-mid-brown">Every whisker, every expression, captured in loving detail.</span>}
-        items={petGalleryItems}
+        title={<span className="font-serif text-4xl md:text-6xl italic">Szlachetne Portrety: Konie</span>}
+        subtitle={<span className="text-lg font-light mt-2 text-mid-brown">Każdy detal, każde spojrzenie, uchwycone z artystyczną precyzją.</span>}
+        items={horseGalleryItems}
       />
       <GallerySection
-        title={<span className="font-serif text-4xl md:text-6xl italic">Cherished Home Drawings</span>}
-        subtitle={<span className="text-lg font-light mt-2 text-mid-brown">Architectural artistry for the place your story unfolds.</span>}
-        items={houseGalleryItems}
+        title={<span className="font-serif text-4xl md:text-6xl italic">Portrety Domowych Pupili</span>}
+        subtitle={<span className="text-lg font-light mt-2 text-mid-brown">Uchwyć niepowtarzalną osobowość swojego przyjaciela na zawsze.</span>}
+        items={petGalleryItems}
       />
       <ContactSection />
     </div>

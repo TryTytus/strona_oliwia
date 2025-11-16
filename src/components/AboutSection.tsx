@@ -6,38 +6,38 @@ export function AboutSection() {
   const features = [
     {
       icon: Sparkles,
-      title: "Hand-Crafted",
-      description: "Each portrait is carefully hand-drawn with professional materials",
+      title: "Ręczne Wykonanie",
+      description: "Każdy portret jest starannie rysowany ręcznie przy użyciu profesjonalnych materiałów.",
     },
     {
       icon: PawPrint,
-      title: "Pet Portraits",
-      description: "Capture your furry friend's personality in stunning detail",
+      title: "Portrety Zwierząt",
+      description: "Uchwyć osobowość swojego futrzanego przyjaciela w najdrobniejszych detalach.",
     },
     {
       icon: Home,
-      title: "House Drawings",
-      description: "Preserve memories of your home with architectural precision",
+      title: "Rysunki Domów",
+      description: "Zachowaj wspomnienia o swoim domu dzięki rysunkom z architektoniczną precyzją.",
     },
   ];
 
   return (
     <section className="py-32 bg-[#e8e4d9] relative overflow-hidden">
       {/* Decorative elements */}
+
+      {/* chyba do usunięcia*/}
       <div className="absolute top-0 left-0 w-full h-2 bg-black" />
       
       <div className="max-w-6xl mx-auto px-6">
         <AnimatedSection className="text-center mb-20">
           <div className="inline-block border-b-4 border-black pb-4 mb-6">
             <h2 className="text-black">
-              <span className="font-serif text-4xl md:text-6xl italic">Art That Tells Your Story</span>
+              <span className="font-serif text-4xl md:text-6xl italic">Sztuka, która opowiada Twoją historię</span>
             </h2>
           </div>
           <p className="max-w-3xl mx-auto text-black/70 border-l-4 border-black pl-6 italic">
             <span className="text-lg font-light mt-2 text-mid-brown">
-            With over a decade of experience in fine art and illustration, 
-            I create custom portraits that celebrate the unique bond between you and your pets, 
-            and the special places you call home.
+            Z pasją do sztuki i ilustracji tworzę personalizowane portrety, które celebrują wyjątkową więź z Twoimi pupilami oraz magię miejsc, które nazywasz domem.
             </span>
           </p>
         </AnimatedSection>
