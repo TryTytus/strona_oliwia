@@ -155,18 +155,18 @@ export function AutoScrollGalleryHero() {
 
       {/* Angled intro section */}
       <div 
-        className="absolute bottom-0 left-0 w-full h-[45vh] bg-[#e8e4d9]"
+        className="absolute bottom-0 left-0 w-full h-[48vh] lg:h-[52vh] bg-[#e8e4d9]"
         style={{ clipPath: 'polygon(0 30%, 100% 0, 100% 100%, 0% 100%)' }}
       >
         <div className="absolute bottom-0 left-0 w-full h-full flex items-center justify-center">
           <div className="text-center text-black max-w-2xl mx-auto px-6 pt-20">
-            <h1 className="font-serif text-5xl md:text-7xl italic">
+            <h1 className="mt-5 lg:mt-0 font-serif text-5xl md:text-7xl italic">
               Sztuka, która opowiada Twoją historię
             </h1>
             <p className="mt-4 text-lg text-mid-brown">
               Ręcznie rysowane portrety zwierząt i domów, które uchwycą to, co najważniejsze.
             </p>
-            <motion.div whileHover={{ y: 5 }} className="mt-8">
+            <motion.div whileHover={{ y: 5 }} className="mt-4 lg:mt-8">
               <ArrowDown className="w-8 h-8 mx-auto animate-bounce" />
             </motion.div>
           </div>
@@ -195,7 +195,13 @@ function ScrollingColumn({ column, basescrollY, direction, totalHeight }: Scroll
   );
 
   return (
-    <motion.div className="flex-1 flex flex-col gap-6" style={{ y }}>
+    <motion.div 
+      className="flex-1 flex flex-col gap-6" 
+      style={{ 
+        y,
+        willChange: 'transform' // Performance optimization
+      }}
+    >
       {[...column, ...column].map((item, index) => (
               <motion.div
                 key={`${item.id}-${index}`}
