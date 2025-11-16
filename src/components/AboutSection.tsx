@@ -28,22 +28,17 @@ export function AboutSection() {
       
       <div className="max-w-6xl mx-auto px-6">
         <AnimatedSection className="text-center mb-20">
-          <motion.div
-            initial={{ scaleX: 0 }}
-            whileInView={{ scaleX: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, type: "spring" }}
-            className="inline-block mb-6"
-          >
-            <div className="w-32 h-1 bg-black" />
-          </motion.div>
-          <h2 className="mb-6 text-black">
-            Art That Tells Your Story
-          </h2>
-          <p className="max-w-3xl mx-auto text-black/70 italic border-l-4 border-black pl-6">
+          <div className="inline-block border-b-4 border-black pb-4 mb-6">
+            <h2 className="text-black">
+              <span className="font-serif text-4xl md:text-6xl italic">Art That Tells Your Story</span>
+            </h2>
+          </div>
+          <p className="max-w-3xl mx-auto text-black/70 border-l-4 border-black pl-6 italic">
+            <span className="text-lg font-light mt-2 text-mid-brown">
             With over a decade of experience in fine art and illustration, 
             I create custom portraits that celebrate the unique bond between you and your pets, 
             and the special places you call home.
+            </span>
           </p>
         </AnimatedSection>
 
@@ -63,8 +58,8 @@ export function AboutSection() {
                 >
                   <feature.icon className="w-8 h-8 text-black" />
                 </motion.div>
-                <h3 className="mb-3 text-black border-b-2 border-black/20 pb-2">{feature.title}</h3>
-                <p className="text-black/70">{feature.description}</p>
+                <h3 className="font-sans mb-3 text-xl text-black border-b-2 border-black/20 pb-2 tracking-wide">{feature.title}</h3>
+                <p className="font-sans text-black/70 leading-relaxed">{feature.description}</p>
               </motion.div>
             </AnimatedSection>
           ))}
