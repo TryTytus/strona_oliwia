@@ -1,5 +1,6 @@
 import { motion, useAnimationFrame, useMotionValue, useTransform } from 'motion/react';
 import { useState, useMemo } from 'react';
+import { ArrowDown } from 'lucide-react';
 import { ImageWithFallback } from './figma/ImageWithFallback';
 
 interface GalleryItem {
@@ -150,8 +151,25 @@ export function AutoScrollGalleryHero() {
           )})}
       </div>
 
-      {/* Bottom fade */}
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-cream to-transparent pointer-events-none" />
+      {/* Angled intro section */}
+      <div 
+        className="absolute bottom-0 left-0 w-full h-[45vh] bg-[#e8e4d9]"
+        style={{ clipPath: 'polygon(0 30%, 100% 0, 100% 100%, 0% 100%)' }}
+      >
+        <div className="absolute bottom-0 left-0 w-full h-full flex items-center justify-center">
+          <div className="text-center text-black max-w-2xl mx-auto px-6 pt-20">
+            <h1 className="font-serif text-5xl md:text-7xl italic">
+              Sztuka, która opowiada Twoją historię
+            </h1>
+            <p className="mt-4 text-lg text-mid-brown">
+              Ręcznie rysowane portrety zwierząt i domów, które uchwycą to, co najważniejsze.
+            </p>
+            <motion.div whileHover={{ y: 5 }} className="mt-8">
+              <ArrowDown className="w-8 h-8 mx-auto animate-bounce" />
+            </motion.div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
