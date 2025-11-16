@@ -1,6 +1,6 @@
 import { motion } from 'motion/react';
 import { AnimatedSection } from './AnimatedSection';
-import { Sparkles, PawPrint, Home } from 'lucide-react';
+import { Sparkles, PawPrint, Feather } from 'lucide-react';
 
 export function AboutSection() {
   const features = [
@@ -10,14 +10,14 @@ export function AboutSection() {
       description: "Każdy portret jest starannie rysowany ręcznie przy użyciu profesjonalnych materiałów.",
     },
     {
-      icon: PawPrint,
-      title: "Portrety Zwierząt",
-      description: "Uchwyć osobowość swojego futrzanego przyjaciela w najdrobniejszych detalach.",
+      icon: Feather,
+      title: "Rysunki Koni",
+      description: "Uchwyć szlachetność i dynamikę koni w artystycznych portretach pełnych detali.",
     },
     {
-      icon: Home,
-      title: "Rysunki Domów",
-      description: "Zachowaj wspomnienia o swoim domu dzięki rysunkom z architektoniczną precyzją.",
+      icon: PawPrint,
+      title: "Rysunki Pupili",
+      description: "Uwiecznij wyjątkową osobowość i wierność Twojego pupila na zawsze.",
     },
   ];
 
